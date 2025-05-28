@@ -17,7 +17,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (swimming)
+        if (swimming &&
+            transform.position.y <= LevelManager.groundCeilingHeight)
             Swim();
     }
 
