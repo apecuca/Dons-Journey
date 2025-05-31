@@ -12,19 +12,20 @@ public class LevelManager : MonoBehaviour
     [Header("Section settings")]
     [SerializeField] private float parallaxSpeed;
     [SerializeField] private float xToDestroySection;
-    public static float groundCeilingHeight { get; private set; } = 10.0f;
-    public static float sectionHalfSize { get; private set; } = 5.0f;
+    public static float groundCeilingHeight { get; private set; } = 8.25f;
+    public static float sectionHalfSize { get; private set; } = 10.0f;
 
     [Header("Assignables")]
+    [SerializeField] private Transform player;
     [SerializeField] private Transform groundCollider;
 
     private void Start()
     {
         spawnedSections = new List<GameObject>();
 
-        groundCollider.position = groundCollider.position + new Vector3(0, -groundCeilingHeight, 0);
+        groundCollider.position = player.position + new Vector3(0, -groundCeilingHeight, 0);
 
-        for (uint i = 0; i < 5; i++)
+        for (uint i = 0; i < 4; i++)
             SpawnSection();
     }
 

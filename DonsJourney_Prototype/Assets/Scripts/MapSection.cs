@@ -6,9 +6,6 @@ public class MapSection : MonoBehaviour
 {
     private void OnDrawGizmos()
     {
-        if (GameManager.currentState != GAMESTATE.IDLE)
-            return;
-
         Vector2 drawPos = transform.position;
 
         // Section boundaries

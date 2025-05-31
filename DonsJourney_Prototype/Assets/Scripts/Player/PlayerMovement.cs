@@ -5,8 +5,16 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private bool swimming = false;
-    [SerializeField] private float maxYSpeed = 12.0f;
-    [SerializeField] private float swimYSpeed = 0.4f;
+
+    [SerializeField] private float maxSwimSpeed = 12.0f;
+    [SerializeField] private float swimSpeed = 0.4f;
+    [SerializeField] private float waterDeceleration;
+    [SerializeField] private float waterHoverSpeed;
+
+    [SerializeField] private bool hovering;
+
+    [Header("Assignables")]
+    [SerializeField] private FixedJoystick joystick;
 
     private Rigidbody2D rb;
 
@@ -17,16 +25,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (swimming &&
-            transform.position.y <= LevelManager.groundCeilingHeight)
-            Swim();
+        HandleMovement();
     }
 
     ////////////////////////////////////////////////////////
     /// Input
+    /// 
 
     public void onSwimInputDown()
     {
+        hovering = false;
         swimming = true;
     }
 
@@ -38,12 +46,39 @@ public class PlayerMovement : MonoBehaviour
     ////////////////////////////////////////////////////////
     /// Movement
     
+    private void HandleMovement()
+    {
+        if (transform.position.y <= LevelManager.groundCeilingHeight)
+        {
+            if (swimming) Swim();
+            else HandleDeceleration();
+        }
+        else
+            rb.velocity += Physics2D.gravity * Time.deltaTime;
+    }
+
     private void Swim()
     {
-        float speedToAdd = swimYSpeed + Time.deltaTime;
-        if ((rb.velocity.y + speedToAdd) <= maxYSpeed)
+        float speedToAdd = (swimSpeed * joystick.Vertical) * Time.deltaTime;
+        if (Mathf.Abs(rb.velocity.y + speedToAdd) <= maxSwimSpeed)
             rb.velocity = new Vector2(0.0f, rb.velocity.y + speedToAdd);
         else
-            rb.velocity = new Vector2(0.0f, maxYSpeed);
+            rb.velocity = new Vector2(0.0f, maxSwimSpeed * (rb.velocity.y < 0.0f ? -1.0f : 1.0f));
+    }
+
+    private void HandleDeceleration()
+    {
+        if (rb.velocity.y < -waterHoverSpeed)
+            hovering = true;
+
+        if (hovering)
+        {
+            rb.velocity = Vector2.Lerp(
+                rb.velocity,
+                new Vector2(0.0f, -waterHoverSpeed),
+                waterDeceleration * Time.deltaTime);
+        }
+        else
+            rb.velocity += Physics2D.gravity * Time.deltaTime;
     }
 }
