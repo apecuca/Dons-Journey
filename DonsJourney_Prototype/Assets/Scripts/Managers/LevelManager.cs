@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float parallaxSpeed;
     [SerializeField] private float xToDestroySection;
     public static float groundCeilingHeight { get; private set; } = 8.25f;
-    public static float sectionHalfSize { get; private set; } = 10.0f;
+    public static float sectionHalfSize { get; private set; } = 12.5f;
 
     [Header("Assignables")]
     [SerializeField] private Transform player;
@@ -25,8 +25,8 @@ public class LevelManager : MonoBehaviour
 
         groundCollider.position = player.position + new Vector3(0, -groundCeilingHeight, 0);
 
-        for (uint i = 0; i < 4; i++)
-            SpawnSection();
+        for (uint i = 0; i < 3; i++)
+            SpawnSection(true);
     }
 
     private void Update()
@@ -50,7 +50,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void SpawnSection()
+    private void SpawnSection(bool startingSection = false)
     {
         Vector3 newPos = new Vector3(xToDestroySection + 0.1f, 0.0f, 0.0f);
         if (spawnedSections.Count > 0)
@@ -59,7 +59,8 @@ public class LevelManager : MonoBehaviour
             newPos.x += sectionHalfSize * 2;
         }
 
-        GameObject newObj = Instantiate(sectionPrefabs[UnityEngine.Random.Range(0, sectionPrefabs.Length)],
+        int selectedObj = startingSection ? 0 : UnityEngine.Random.Range(0, sectionPrefabs.Length);
+        GameObject newObj = Instantiate(sectionPrefabs[selectedObj],
              newPos, quaternion.identity);
         spawnedSections.Add(newObj);
     }
