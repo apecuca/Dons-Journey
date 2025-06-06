@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     private bool swimming = false;
 
     [SerializeField] private float maxSwimSpeed = 12.0f;
-    [SerializeField] private float swimSpeed = 0.4f;
+    [SerializeField] private float swimSpeed = 20.0f;
     [SerializeField] private float waterDeceleration;
     [SerializeField] private float waterHoverSpeed;
 
