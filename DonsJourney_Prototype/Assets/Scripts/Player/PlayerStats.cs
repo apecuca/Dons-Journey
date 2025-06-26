@@ -20,7 +20,7 @@ public class PlayerStats : MonoBehaviour
 
         // Starting stats
         health = 2;
-        coinsCollected = 0;
+        GameManager.instance.UpdateCoins(coinsCollected);
     }
 
     private void OnEnemyCollision(GameObject enemy)
@@ -54,11 +54,22 @@ public class PlayerStats : MonoBehaviour
 
     private void OnCoinCollision(GameObject coin)
     {
-        coinsCollected++;
+        SetCoins(coinsCollected + 1);
 
         GameManager.instance.UpdateCoins(coinsCollected);
 
         Destroy(coin);
+    }
+
+    public static bool CanBuy(int price)
+    {
+        if (coinsCollected >= price) return true;
+        else return false;
+    }
+
+    public static void SetCoins(int value)
+    {
+        coinsCollected = value;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

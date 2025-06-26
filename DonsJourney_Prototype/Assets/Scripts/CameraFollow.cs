@@ -6,23 +6,58 @@ public class CameraFollow : MonoBehaviour
 {
     [Header("Follow")]
     [SerializeField] private Transform followTarget;
-    [SerializeField] private float dampness = 20.0f;
+    [SerializeField] private float followDampness = 20.0f;
+    private bool canFollow = false;
+    [SerializeField] private float targetXPos = 0.0f;
 
     [Header("Shake")]
     [SerializeField] private float shakeDuration;
     [SerializeField] private float shakeStrength;
 
+    private float camSizeIngame = 5.0f;
+    [SerializeField] private float resizeDampness;
+
     private Vector3 shakeOffset = Vector3.zero;
+
+    private Camera mainCam;
+
+    private void Start()
+    {
+        mainCam = GetComponent<Camera>();
+        SetCanFollow(false);
+        targetXPos = transform.position.x;
+    }
 
     private void Update()
     {
-        if (followTarget == null) 
+        if (followTarget == null || !canFollow) 
             return;
 
-        Vector3 newPos = Vector3.Lerp(transform.position, followTarget.position, dampness * Time.deltaTime);
-        newPos.x = 0;
-        newPos.z = -10.0f;
+        // Seguir verticalmente
+        Vector3 newPos = new Vector3(
+            targetXPos,
+            Mathf.Lerp(transform.position.y, followTarget.position.y, followDampness * Time.deltaTime),
+            -10.0f);
         transform.position = newPos + shakeOffset;
+    }
+
+    public void PrepareIngameCam()
+    {
+        SetCanFollow(true);
+        StartCoroutine(ExpandAndPositionCamera());
+    }
+
+    private IEnumerator ExpandAndPositionCamera()
+    {
+        while (camSizeIngame - mainCam.orthographicSize >= 0.01f)
+        {
+            mainCam.orthographicSize = Mathf.Lerp(mainCam.orthographicSize, camSizeIngame, resizeDampness * Time.deltaTime);
+            targetXPos = Mathf.Lerp(targetXPos, 0.0f, resizeDampness * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+
+        mainCam.orthographicSize = camSizeIngame;
+        targetXPos = 0.0f;
     }
 
     public void ShakeScreen()
@@ -43,5 +78,10 @@ public class CameraFollow : MonoBehaviour
         }
 
         shakeOffset = Vector3.zero;
+    }
+
+    private void SetCanFollow(bool state)
+    {
+        canFollow = state;
     }
 }

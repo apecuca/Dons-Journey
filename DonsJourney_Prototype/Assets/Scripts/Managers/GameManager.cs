@@ -17,10 +17,12 @@ public class GameManager : MonoBehaviour
     [Header("Player assignables")]
     [SerializeField] private PlayerMovement p_movement;
 
-    [Header("UI Assignables")]
+    [Header("HUDs")]
     [SerializeField] private GameObject HUD_ingame;
     [SerializeField] private GameObject HUD_pause;
-    [SerializeField] private GameObject btn_startGame;
+    [SerializeField] private GameObject HUD_menu;
+
+    [Header("UI Elements")]
     [SerializeField] private GameObject btn_playAgain;
     [SerializeField] private Text lb_coins;
     [SerializeField] private Text lb_dist;
@@ -36,6 +38,9 @@ public class GameManager : MonoBehaviour
     // MOVER TUDO A VER COM UI PARA OUTRA CLASSE
     // por favor
     //
+    // Update 1 mes depois:
+    // To com preguica 
+    //
 
     private void Awake()
     {
@@ -46,13 +51,19 @@ public class GameManager : MonoBehaviour
         lb_version.text = "Don's Journey Prototype v" + Application.version;
     }
 
+    /*---------------------------------------------------------------*/
+    /*---------------------------------------------------------------*/
+
+    #region MANAGEMENT
+
     private void Start()
     {
         currentState = GAMESTATE.WAITING;
         HUD_ingame.SetActive(false);
         HUD_pause.SetActive(false);
         btn_playAgain.SetActive(false);
-        btn_startGame.SetActive(true);
+        HUD_menu.SetActive(true);
+        Time.timeScale = 1.0f;
 
         p_movement.enabled = false;
     }
@@ -60,10 +71,12 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         currentState = GAMESTATE.PLAYING;
-        btn_startGame.SetActive(false);
+        HUD_menu.SetActive(false);
         HUD_ingame.SetActive(true);
 
         p_movement.enabled = true;
+
+        Camera.main.GetComponent<CameraFollow>().PrepareIngameCam();
     }
 
     public void TogglePause(bool _state)
@@ -90,6 +103,13 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    #endregion
+
+    /*---------------------------------------------------------------*/
+    /*---------------------------------------------------------------*/
+
+    #region UI STUFF
+
     public void UpdateCoins(int newValue)
     {
         lb_coins.text = newValue.ToString();
@@ -99,4 +119,22 @@ public class GameManager : MonoBehaviour
     {
         lb_dist.text = ((int)newValue).ToString() + "m";
     }
+
+    #endregion
+
+    /*---------------------------------------------------------------*/
+    /*---------------------------------------------------------------*/
+
+    #region MISC
+
+    public void ResetSessionData()
+    {
+        PlayerStats.SetCoins(0);
+        UpdateCoins(0);
+    }
+
+    #endregion
+
+    /*---------------------------------------------------------------*/
+    /*---------------------------------------------------------------*/
 }
