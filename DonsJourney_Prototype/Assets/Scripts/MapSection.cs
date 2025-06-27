@@ -4,6 +4,24 @@ using UnityEngine;
 
 public class MapSection : MonoBehaviour
 {
+    [SerializeField] private GameObject bubbleObj;
+
+    private void OnEnable()
+    {
+        if (bubbleObj == null)
+            return;
+
+        if (!LevelManager.instance.CanSpawnBubble())
+            bubbleObj.SetActive(false);
+        else
+            LevelManager.instance.OnBubbleSpawned();
+    }
+
+    private void OnBecameVisible()
+    {
+        Debug.Log("Became visible!");
+    }
+
     private void OnDrawGizmos()
     {
         Vector2 drawPos = transform.position;

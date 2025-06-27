@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 {
     [Header("Player assignables")]
     [SerializeField] private PlayerMovement p_movement;
+    [SerializeField] private PlayerStats p_stats;
 
     [Header("HUDs")]
     [SerializeField] private GameObject HUD_ingame;
@@ -28,6 +29,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text lb_dist;
     [SerializeField] private Text lb_version;
     [SerializeField] private Text lb_finalStats;
+
+    [Header("Misc")]
+    [SerializeField] private int menuBubblePrice;
 
     // Que sintaxe grande meu deus do ceu
     public static GAMESTATE currentState { get; private set; } = GAMESTATE.WAITING;
@@ -131,6 +135,15 @@ public class GameManager : MonoBehaviour
     {
         PlayerStats.SetCoins(0);
         UpdateCoins(0);
+    }
+
+    public void BuyMenuBubble()
+    {
+        if (!PlayerStats.SubtractCoins(menuBubblePrice))
+            return;
+
+        UpdateCoins(PlayerStats.coinsCollected);
+        p_stats.SetBubbled(true);
     }
 
     #endregion

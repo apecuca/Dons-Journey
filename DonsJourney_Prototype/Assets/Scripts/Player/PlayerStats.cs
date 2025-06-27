@@ -6,13 +6,26 @@ public class PlayerStats : MonoBehaviour
 {
     [SerializeField] private bool immortal = false;
 
+    [Header("Everything")]
     [SerializeField] private float invincibilityDuration;
+    [SerializeField] private GameObject bubbleObj;
     private bool invincible = false;
 
     public int health { get; private set; } = 2;
+    public bool bubbled { get; private set; }
     public static int coinsCollected { get; private set; }
 
     private PlayerAnim p_anim;
+
+    public static PlayerStats instance { get; private set; }
+
+    private void Awake()
+    {
+        if (instance != null)
+            Destroy(instance.gameObject);
+
+        instance = this;
+    }
 
     private void Start()
     {
@@ -21,25 +34,26 @@ public class PlayerStats : MonoBehaviour
         // Starting stats
         health = 2;
         GameManager.instance.UpdateCoins(coinsCollected);
+        bubbled = false;
     }
 
     private void OnEnemyCollision(GameObject enemy)
     {
-        if (invincible)
+        if (invincible || immortal)
             return;
 
-        if (!immortal)
+        if (!bubbled)
         {
             health--;
             p_anim.ApplyDamageColors();
         }
+        else
+            SetBubbled(false);
 
         Camera.main.GetComponent<CameraFollow>().ShakeScreen();
 
         if (health <= 0) GameManager.instance.EndGame();
         else StartCoroutine(BecomeInvincible(invincibilityDuration));
-
-        //Destroy(enemy);
     }
 
     private IEnumerator BecomeInvincible(float duration)
@@ -61,15 +75,37 @@ public class PlayerStats : MonoBehaviour
         Destroy(coin);
     }
 
-    public static bool CanBuy(int price)
+    public static bool SubtractCoins(int price)
     {
-        if (coinsCollected >= price) return true;
-        else return false;
+        if (coinsCollected < price)
+            return false;
+
+        coinsCollected -= price;
+        return true;
     }
 
     public static void SetCoins(int value)
     {
         coinsCollected = value;
+    }
+
+    private void OnBubblePickupCollision(GameObject bubble)
+    {
+        Destroy(bubble);
+
+        if (bubbled)
+            return;
+
+        SetBubbled(true);
+    }
+
+    public void SetBubbled(bool state)
+    {
+        bubbled = state;
+        bubbleObj.SetActive(state);
+
+        if (!state)
+            LevelManager.instance.OnBubbleDestroyed();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -82,6 +118,10 @@ public class PlayerStats : MonoBehaviour
 
             case "Coin":
                 OnCoinCollision(collision.gameObject);
+                break;
+
+            case "BubblePickup":
+                OnBubblePickupCollision(collision.gameObject);
                 break;
 
             default: break;

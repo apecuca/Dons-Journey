@@ -166,6 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   p_movement: {fileID: 2143732977}
+  p_stats: {fileID: 5176034557457650952}
   HUD_ingame: {fileID: 1688078506}
   HUD_pause: {fileID: 1343147243}
   HUD_menu: {fileID: 2070249956}
@@ -174,6 +175,7 @@ MonoBehaviour:
   lb_dist: {fileID: 1529646667}
   lb_version: {fileID: 1294909641}
   lb_finalStats: {fileID: 1812940433}
+  menuBubblePrice: 50
 --- !u!114 &38772990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,10 +195,11 @@ MonoBehaviour:
   - {fileID: 185437857153957005, guid: 0a1698abd2a1de24c8238bf127ec42dc, type: 3}
   - {fileID: 185437857153957005, guid: 8c765069c10492343825419adb7c84c3, type: 3}
   - {fileID: 185437857153957005, guid: 0b9135a0e8b5e7a4b9e5b557353e2865, type: 3}
-  diffIncreasePerSecond: 0.0055
-  maxDifficulty: 2.5
+  diffIncreasePerSecond: 0.00415
+  maxDifficulty: 2
   parallaxSpeed: 7.5
   xToDestroySection: -25
+  bubbleSpawnTimer: 0
   player: {fileID: 2143732976}
   groundCollider: {fileID: 901635823}
 --- !u!1 &319314587
@@ -1949,7 +1952,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 6.2998047, y: 5.5999756}
+  m_AnchoredPosition: {x: 6.2998047, y: 5.6000977}
   m_SizeDelta: {x: 377.0687, y: 50.801346}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1294909641
@@ -3009,7 +3012,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 38772989}
+        m_MethodName: BuyMenuBubble
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1992512896
 GameObject:
   m_ObjectHideFlags: 0
@@ -3190,10 +3204,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1823755579, guid: 8821aa17f33640e4a82f0452850a80c1, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5176034558854697448, guid: 8821aa17f33640e4a82f0452850a80c1,
         type: 3}
       propertyPath: m_Name
@@ -3259,8 +3269,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8638230025657819599, guid: 8821aa17f33640e4a82f0452850a80c1,
+        type: 3}
+      propertyPath: immortal
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8821aa17f33640e4a82f0452850a80c1, type: 3}
+--- !u!114 &5176034557457650952 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8638230025657819599, guid: 8821aa17f33640e4a82f0452850a80c1,
+    type: 3}
+  m_PrefabInstance: {fileID: 5176034557457650951}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28d5a2982a90114cab214ba0b338c8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8659860658415045096
 RectTransform:
   m_ObjectHideFlags: 0

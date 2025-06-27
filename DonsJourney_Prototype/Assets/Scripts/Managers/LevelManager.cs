@@ -17,11 +17,14 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float maxDifficulty;
     public static float difficulty { get; private set; } = 0.8f;
 
+
     [Header("Section settings")]
     [SerializeField] private float parallaxSpeed;
     [SerializeField] private float xToDestroySection;
-    public static float groundCeilingHeight { get; private set; } = 8.25f;
-    public static float sectionHalfSize { get; private set; } = 12.5f;
+    public const float groundCeilingHeight = 8.25f;
+    public const float sectionHalfSize = 12.5f;
+    [SerializeField] private float bubbleSpawnTimer = 0.0f;
+    private float bubbleSpawnCD = 15.0f;
 
     [Header("Assignables")]
     [SerializeField] private Transform player;
@@ -41,6 +44,7 @@ public class LevelManager : MonoBehaviour
         // Starting stats
         difficulty = 0.8f;
         distance = 0.0f;
+        bubbleSpawnTimer = bubbleSpawnCD;
 
         spawnedSections = new List<GameObject>();
 
@@ -78,6 +82,10 @@ public class LevelManager : MonoBehaviour
         if (difficulty < maxDifficulty)
             difficulty += diffIncreasePerSecond * Time.deltaTime;
         else difficulty = maxDifficulty;
+
+        // Bubble spawn timer
+        if (bubbleSpawnTimer > 0.0f)
+            bubbleSpawnTimer -= 1.0f * Time.deltaTime;
     }
 
     private void SpawnSection(bool startingSection = false)
@@ -93,6 +101,23 @@ public class LevelManager : MonoBehaviour
         GameObject newObj = Instantiate(sectionPrefabs[selectedObj],
              newPos, quaternion.identity);
         spawnedSections.Add(newObj);
+    }
+
+    public bool CanSpawnBubble()
+    {
+        if (PlayerStats.instance.bubbled) return false;
+        if (bubbleSpawnTimer > 0.0f) return false;
+        return true;
+    }
+
+    public void OnBubbleDestroyed()
+    {
+        bubbleSpawnTimer = bubbleSpawnCD * 2;
+    }
+
+    public void OnBubbleSpawned()
+    {
+        bubbleSpawnTimer = bubbleSpawnCD;
     }
 
     private void OnDrawGizmos()
