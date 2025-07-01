@@ -16,12 +16,6 @@ public class MapSection : MonoBehaviour
         else
             LevelManager.instance.OnBubbleSpawned();
     }
-
-    private void OnBecameVisible()
-    {
-        Debug.Log("Became visible!");
-    }
-
     private void OnDrawGizmos()
     {
         Vector2 drawPos = transform.position;

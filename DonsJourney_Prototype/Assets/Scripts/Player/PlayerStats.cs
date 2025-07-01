@@ -69,6 +69,7 @@ public class PlayerStats : MonoBehaviour
     private void OnCoinCollision(GameObject coin)
     {
         SetCoins(coinsCollected + 1);
+        p_anim.EmitParticles_Munching(coin.transform.position);
 
         GameManager.instance.UpdateCoins(coinsCollected);
 
@@ -103,6 +104,7 @@ public class PlayerStats : MonoBehaviour
     {
         bubbled = state;
         bubbleObj.SetActive(state);
+        p_anim.EmitParticles_WaterSplash(transform.position);
 
         if (!state)
             LevelManager.instance.OnBubbleDestroyed();

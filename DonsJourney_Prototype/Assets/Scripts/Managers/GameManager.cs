@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject HUD_menu;
 
     [Header("UI Elements")]
-    [SerializeField] private GameObject btn_playAgain;
+    [SerializeField] private Button btn_playAgain;
     [SerializeField] private Text lb_coins;
     [SerializeField] private Text lb_dist;
     [SerializeField] private Text lb_version;
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         currentState = GAMESTATE.WAITING;
         HUD_ingame.SetActive(false);
         HUD_pause.SetActive(false);
-        btn_playAgain.SetActive(false);
+        btn_playAgain.gameObject.SetActive(false);
         HUD_menu.SetActive(true);
         Time.timeScale = 1.0f;
 
@@ -99,7 +99,8 @@ public class GameManager : MonoBehaviour
 
         lb_finalStats.text = "Distance reached: " + ((int)LevelManager.distance).ToString() + "m\n" +
                              "Jellyfish eaten: " + PlayerStats.coinsCollected.ToString();
-        btn_playAgain.SetActive(true);
+        btn_playAgain.gameObject.SetActive(true);
+        StartCoroutine(UnlockReplayBtnAfterTime(1.0f));
     }
 
     public void PlayAgain()
@@ -122,6 +123,12 @@ public class GameManager : MonoBehaviour
     public void UpdateDistance(float newValue)
     {
         lb_dist.text = ((int)newValue).ToString() + "m";
+    }
+
+    private IEnumerator UnlockReplayBtnAfterTime(float _t)
+    {
+        yield return new WaitForSeconds(_t);
+        btn_playAgain.interactable = true;
     }
 
     #endregion

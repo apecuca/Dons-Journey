@@ -170,7 +170,7 @@ MonoBehaviour:
   HUD_ingame: {fileID: 1688078506}
   HUD_pause: {fileID: 1343147243}
   HUD_menu: {fileID: 2070249956}
-  btn_playAgain: {fileID: 390017571}
+  btn_playAgain: {fileID: 390017573}
   lb_coins: {fileID: 1927961886}
   lb_dist: {fileID: 1529646667}
   lb_version: {fileID: 1294909641}
@@ -387,7 +387,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 390017574}
   m_OnClick:
     m_PersistentCalls:
@@ -3207,6 +3207,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 785313355, guid: 8821aa17f33640e4a82f0452850a80c1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.371
+      objectReference: {fileID: 0}
+    - target: {fileID: 785313357, guid: 8821aa17f33640e4a82f0452850a80c1, type: 3}
+      propertyPath: autoRandomSeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 785313357, guid: 8821aa17f33640e4a82f0452850a80c1, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 785313357, guid: 8821aa17f33640e4a82f0452850a80c1, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 785313357, guid: 8821aa17f33640e4a82f0452850a80c1, type: 3}
+      propertyPath: InitialModule.startColor.minColor.b
+      value: 0.42733178
+      objectReference: {fileID: 0}
+    - target: {fileID: 785313357, guid: 8821aa17f33640e4a82f0452850a80c1, type: 3}
+      propertyPath: InitialModule.startColor.minColor.g
+      value: 0.9040088
+      objectReference: {fileID: 0}
+    - target: {fileID: 785313357, guid: 8821aa17f33640e4a82f0452850a80c1, type: 3}
+      propertyPath: InitialModule.startColor.minColor.r
+      value: 0.9150943
+      objectReference: {fileID: 0}
+    - target: {fileID: 785313357, guid: 8821aa17f33640e4a82f0452850a80c1, type: 3}
+      propertyPath: InitialModule.startColor.minMaxState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1823755579, guid: 8821aa17f33640e4a82f0452850a80c1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5176034558854697448, guid: 8821aa17f33640e4a82f0452850a80c1,
         type: 3}
       propertyPath: m_Name
@@ -3270,11 +3306,6 @@ PrefabInstance:
     - target: {fileID: 5176034558854697463, guid: 8821aa17f33640e4a82f0452850a80c1,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8638230025657819599, guid: 8821aa17f33640e4a82f0452850a80c1,
-        type: 3}
-      propertyPath: immortal
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

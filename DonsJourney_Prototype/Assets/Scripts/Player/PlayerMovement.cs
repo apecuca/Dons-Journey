@@ -15,12 +15,17 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Assignables")]
     [SerializeField] private FixedJoystick joystick;
+    [SerializeField] private Transform feet;
+    [SerializeField] private LayerMask groundLayer;
+    private bool onAir = false;
 
     private Rigidbody2D rb;
+    private PlayerAnim p_anim;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        p_anim = GetComponent<PlayerAnim>();
     }
 
     private void Update()
@@ -52,9 +57,23 @@ public class PlayerMovement : MonoBehaviour
         {
             if (swimming) Swim();
             else HandleDeceleration();
+
+            if (onAir)
+            {
+                p_anim.EmitParticles_WaterSplash(transform.position);
+                onAir = false;
+            }
         }
         else
+        {
+            if (!onAir)
+            {
+                p_anim.EmitParticles_WaterSplash(transform.position);
+                onAir = true;
+            }
+
             rb.velocity += Physics2D.gravity * Time.deltaTime;
+        }
     }
 
     private void Swim()
@@ -80,5 +99,10 @@ public class PlayerMovement : MonoBehaviour
         }
         else
             rb.velocity += Physics2D.gravity * Time.deltaTime;
+    }
+
+    public bool IsGrounded()
+    {
+        return Physics2D.Raycast(feet.position, Vector2.down, 0.1f, groundLayer);
     }
 }

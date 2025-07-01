@@ -11,11 +11,19 @@ public class PlayerAnim : MonoBehaviour
     [Header("Animation settings")]
     [SerializeField] private float swimStrength;
 
+    [Header("Assignables")]
+    [SerializeField] private ParticleSystem waterSplash;
+    [SerializeField] private ParticleSystem munchingSplash;
+    [SerializeField] private ParticleSystem GroundTrail;
+    private bool emittingGroundParticles = false;
+
+    private PlayerMovement p_movement;
     private Rigidbody2D rb;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        p_movement = GetComponent<PlayerMovement>();
     }
 
     private void Update()
@@ -24,6 +32,23 @@ public class PlayerAnim : MonoBehaviour
             return;
 
         visual.transform.eulerAngles = new Vector3(0f, 0f, rb.velocity.y * swimStrength);
+        if (p_movement.IsGrounded())
+        {
+            if (!emittingGroundParticles)
+            {
+                emittingGroundParticles = true;
+                GroundTrail.Play();
+            }
+        }
+        else
+        {
+            if (emittingGroundParticles)
+            {
+                emittingGroundParticles = false;
+                GroundTrail.Stop();
+            }
+        }
+            
     }
 
     public void ApplyDamageColors()
@@ -35,5 +60,17 @@ public class PlayerAnim : MonoBehaviour
     {
         if (state) visual.color = new Color(visual.color.r, visual.color.g, visual.color.b, invColor.a);
         else visual.color = new Color(visual.color.r, visual.color.g, visual.color.b, Color.white.a);
+    }
+
+    public void EmitParticles_WaterSplash(Vector3 position)
+    {
+        ParticleSystem ps = Instantiate(waterSplash, position, Quaternion.identity);
+        ps.Play();
+    }
+    
+    public void EmitParticles_Munching(Vector3 position)
+    {
+        ParticleSystem ps = Instantiate(munchingSplash, position, Quaternion.identity);
+        ps.Play();
     }
 }

@@ -14,6 +14,9 @@ public class Shark : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.currentState != GAMESTATE.PLAYING)
+            return;
+
         transform.position -= new Vector3(
             moveSpeed * LevelManager.difficulty * Time.deltaTime,
             0.0f,
