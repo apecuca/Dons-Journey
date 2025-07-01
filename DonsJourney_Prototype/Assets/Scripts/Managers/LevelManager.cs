@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -19,16 +17,22 @@ public class LevelManager : MonoBehaviour
 
 
     [Header("Section settings")]
-    [SerializeField] private float parallaxSpeed;
     [SerializeField] private float xToDestroySection;
+    [SerializeField] private float parallaxSpeed = 7.0f;
     public const float groundCeilingHeight = 8.25f;
     public const float sectionHalfSize = 12.5f;
-    [SerializeField] private float bubbleSpawnTimer = 0.0f;
+    private float bubbleSpawnTimer = 0.0f;
     private float bubbleSpawnCD = 15.0f;
+
+    [Header("Shark settings")]
+    [SerializeField] private float sharkSpawnCD = 24.0f;
+    [SerializeField] private float sharkSpawnTimer = 0.0f;
+    private float sharkRandTimerMargin = 2.5f;
 
     [Header("Assignables")]
     [SerializeField] private Transform player;
     [SerializeField] private Transform groundCollider;
+    [SerializeField] private GameObject sharkPrefab;
 
     public static LevelManager instance { get; private set; }
 
@@ -45,6 +49,7 @@ public class LevelManager : MonoBehaviour
         difficulty = 0.8f;
         distance = 0.0f;
         bubbleSpawnTimer = bubbleSpawnCD;
+        ResetSharkTimer();
 
         spawnedSections = new List<GameObject>();
 
@@ -86,6 +91,15 @@ public class LevelManager : MonoBehaviour
         // Bubble spawn timer
         if (bubbleSpawnTimer > 0.0f)
             bubbleSpawnTimer -= 1.0f * Time.deltaTime;
+
+        // Shark spawn timer
+        if (sharkSpawnTimer > 0.0f)
+            sharkSpawnTimer -= 1.0f * Time.deltaTime;
+        else
+        {
+            ResetSharkTimer();
+            SpawnShark();
+        }
     }
 
     private void SpawnSection(bool startingSection = false)
@@ -118,6 +132,37 @@ public class LevelManager : MonoBehaviour
     public void OnBubbleSpawned()
     {
         bubbleSpawnTimer = bubbleSpawnCD;
+    }
+
+    public void SpawnShark()
+    {
+        float yRange = groundCeilingHeight - 2.0f;
+        float targetY = UnityEngine.Random.Range(-yRange, yRange);
+        float targetX = Camera.main.ViewportToWorldPoint(new Vector3(1.0f, 1.0f, 0.0f)).x + 6.0f;
+
+        Shark newShark = Instantiate(
+            sharkPrefab, 
+            new Vector3(targetX, targetY, 0.0f), 
+            Quaternion.identity
+                ).GetComponent<Shark>();
+
+        newShark.InitShark(-targetX);
+    }
+
+    private void ResetSharkTimer()
+    {
+        sharkSpawnTimer = sharkSpawnCD + ((sharkSpawnCD - (sharkSpawnCD * difficulty)) / 2);
+        sharkSpawnTimer += UnityEngine.Random.Range(-sharkRandTimerMargin, sharkRandTimerMargin);
+
+        // 27 = valor inicial
+        // 0.8 = dificuldade do momento
+        // 27 + ((27 - (27 * 0.8)) / 2)
+        // 27 + ((27 - 21.6) / 2)
+        // 27 + (5.4 / 2) = 29.7
+
+        // 27 + ((27 - (27 * 2)) / 2)
+        // 27 + ((27 - 54) / 2)
+        // 27 + (-27 / 2) = 13.5
     }
 
     private void OnDrawGizmos()

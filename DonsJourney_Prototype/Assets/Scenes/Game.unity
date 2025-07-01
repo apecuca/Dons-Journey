@@ -197,11 +197,14 @@ MonoBehaviour:
   - {fileID: 185437857153957005, guid: 0b9135a0e8b5e7a4b9e5b557353e2865, type: 3}
   diffIncreasePerSecond: 0.00415
   maxDifficulty: 2
-  parallaxSpeed: 7.5
   xToDestroySection: -25
-  bubbleSpawnTimer: 0
+  parallaxSpeed: 7
+  sharkSpawnCD: 27
+  sharkSpawnTimer: 0
   player: {fileID: 2143732976}
   groundCollider: {fileID: 901635823}
+  sharkPrefab: {fileID: 701410509209736527, guid: a1f520756fc655849a8403a8ab7d6fcf,
+    type: 3}
 --- !u!1 &319314587
 GameObject:
   m_ObjectHideFlags: 0
@@ -3272,7 +3275,7 @@ PrefabInstance:
     - target: {fileID: 8638230025657819599, guid: 8821aa17f33640e4a82f0452850a80c1,
         type: 3}
       propertyPath: immortal
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8821aa17f33640e4a82f0452850a80c1, type: 3}
