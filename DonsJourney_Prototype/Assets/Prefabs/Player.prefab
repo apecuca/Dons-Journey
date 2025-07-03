@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785313354}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.113, y: -0.1, z: 0}
+  m_LocalPosition: {x: -0.371, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5176034558854697463}
@@ -220,8 +220,8 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 0
-      minColor: {r: 1, g: 1, b: 1, a: 1}
+      minMaxState: 2
+      minColor: {r: 0.9150943, g: 0.9040088, b: 0.42733178, a: 1}
       maxColor: {r: 0.6603774, g: 0.65224177, b: 0.31461376, a: 1}
       maxGradient:
         serializedVersion: 2
@@ -284,7 +284,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.2
+      scalar: 0.1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -865,7 +865,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 15
+      scalar: 30
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4809,7 +4809,7 @@ Transform:
   m_GameObject: {fileID: 1823755579}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.6, y: 1.6, z: 1}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_Children: []
   m_Father: {fileID: 5176034558854697463}
   m_RootOrder: 1
@@ -4853,7 +4853,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: dad3fb9e709948f4f8e110a2d2fe63d0, type: 3}
+  m_Sprite: {fileID: 8730346581311437307, guid: 168c0df9e6e943d4987b800c204f39b1,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4939,7 +4940,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visual: {fileID: 5176034558995243317}
   invColor: {r: 1, g: 1, b: 1, a: 0.43137255}
-  onDamageColor: {r: 1, g: 0.4575472, b: 0.4575472, a: 1}
+  onDamageColor: {r: 1, g: 0.7216981, b: 0.7216981, a: 1}
   swimStrength: 2
   waterSplash: {fileID: 1522241478323287943, guid: 7b1ba1ee89d712b45a801f9e3ff3c912,
     type: 3}

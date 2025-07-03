@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerAnim : MonoBehaviour
 {
@@ -53,7 +51,7 @@ public class PlayerAnim : MonoBehaviour
 
     public void ApplyDamageColors()
     {
-        visual.color = new Color(Color.red.r, Color.red.g, Color.red.b, visual.color.a);
+        visual.color = new Color(onDamageColor.r, onDamageColor.g, onDamageColor.b, visual.color.a);
     }
 
     public void ToggleInvincibilityAnim(bool state)

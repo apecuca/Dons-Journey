@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
@@ -28,7 +27,7 @@ public class CameraFollow : MonoBehaviour
         targetXPos = transform.position.x;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (followTarget == null || !canFollow) 
             return;
@@ -36,9 +35,10 @@ public class CameraFollow : MonoBehaviour
         // Seguir verticalmente
         Vector3 newPos = new Vector3(
             targetXPos,
-            Mathf.Lerp(transform.position.y, followTarget.position.y, followDampness * Time.deltaTime),
+            followTarget.position.y,
             -10.0f);
-        transform.position = newPos + shakeOffset;
+
+        transform.position = Vector3.Lerp(transform.position, newPos, followDampness * Time.deltaTime) + shakeOffset;
     }
 
     public void PrepareIngameCam()
