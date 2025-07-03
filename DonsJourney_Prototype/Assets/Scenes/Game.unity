@@ -202,6 +202,17 @@ MonoBehaviour:
   - {fileID: 185437857153957005, guid: f88117b0e4ffa654db347a30ff22cc92, type: 3}
   - {fileID: 185437857153957005, guid: 80545d7c9bcbbec4d86b86c0f901b76d, type: 3}
   - {fileID: 185437857153957005, guid: 1f188eb73d4b97c49954f084069aeb7c, type: 3}
+  - {fileID: 185437857153957005, guid: 228f2ab26fd35dd4c9241a40522a851f, type: 3}
+  - {fileID: 185437857153957005, guid: 2fe92268237ed3947af852a9ed511456, type: 3}
+  - {fileID: 185437857153957005, guid: aba2cbff8a250654ea88faa70670f1b0, type: 3}
+  - {fileID: 185437857153957005, guid: 2ed1c0c648a342b458584f0da3d7def0, type: 3}
+  - {fileID: 185437857153957005, guid: c89f103731488a4439e384d965ff0f93, type: 3}
+  - {fileID: 185437857153957005, guid: 5c00860099f47aa48a9f3c0db58917ef, type: 3}
+  - {fileID: 185437857153957005, guid: c791905f3710eb149b8b74f418c666e5, type: 3}
+  - {fileID: 185437857153957005, guid: 00aa81b36e2de3d41b2beb335e5e6238, type: 3}
+  - {fileID: 185437857153957005, guid: 6bebd40c56b283f4da812b54af8c41df, type: 3}
+  - {fileID: 185437857153957005, guid: bfe4bf3b3d87560469587c3a13a556d7, type: 3}
+  - {fileID: 185437857153957005, guid: 71663e1d8ef1df7408a9e71c0e1a8129, type: 3}
   diffIncreasePerSecond: 0.00415
   maxDifficulty: 2
   xToDestroySection: -25
@@ -3254,6 +3265,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5176034558854697459, guid: 8821aa17f33640e4a82f0452850a80c1,
+        type: 3}
+      propertyPath: onDamageColor.b
+      value: 0.7216981
+      objectReference: {fileID: 0}
+    - target: {fileID: 5176034558854697459, guid: 8821aa17f33640e4a82f0452850a80c1,
+        type: 3}
+      propertyPath: onDamageColor.g
+      value: 0.7216981
       objectReference: {fileID: 0}
     - target: {fileID: 5176034558854697462, guid: 8821aa17f33640e4a82f0452850a80c1,
         type: 3}
