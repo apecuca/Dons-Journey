@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float swimSpeed = 20.0f;
     [SerializeField] private float waterDeceleration;
     [SerializeField] private float waterHoverSpeed;
+    [SerializeField] private bool downBtnPressed = false;
+    [SerializeField] private bool upBtnPressed = false;
 
     [SerializeField] private bool hovering;
 
@@ -37,20 +39,67 @@ public class PlayerMovement : MonoBehaviour
     /// Input
     /// 
 
-    public void onSwimInputDown()
+    public void LegacySwimInputDown()
     {
         hovering = false;
         swimming = true;
     }
 
-    public void onSwimInputUp()
+    public void LegacySwimInputUp()
     {
         swimming = false;
     }
 
+    ///////////////////////
+
+    public void SwimDown()
+    {
+        onSwimInputEnter(ref downBtnPressed);
+    }
+
+    public void SwimUp()
+    {
+        onSwimInputEnter(ref upBtnPressed);
+    }
+
+    public void CancelSwimDown()
+    {
+        onSwimInputExit(ref downBtnPressed);
+    }
+
+    public void CancelSwimUp()
+    {
+        onSwimInputExit(ref upBtnPressed);
+    }
+
+    private void onSwimInputEnter(ref bool controlVar)
+    {
+        controlVar = true;
+        hovering = false;
+        swimming = true;
+    }
+
+    private void onSwimInputExit(ref bool controlVar)
+    {
+        controlVar = false;
+        if (!upBtnPressed && !downBtnPressed)
+            swimming = false;
+    }
+
+    ///////////////////////
+
+    public float GetSwimDirection()
+    {
+        if (!swimming) return 0.0f;
+        else if (GameManager.joystickInput) return joystick.Vertical;
+        else if (upBtnPressed) return 1.0f;
+        else if (downBtnPressed) return -1.0f;
+        else return 0.0f;
+    }
+
     ////////////////////////////////////////////////////////
     /// Movement
-    
+
     private void HandleMovement()
     {
         if (transform.position.y <= LevelManager.groundCeilingHeight)
@@ -78,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Swim()
     {
-        float speedToAdd = (swimSpeed * joystick.Vertical) * Time.deltaTime;
+        float speedToAdd = (swimSpeed * GetSwimDirection()) * Time.deltaTime;
         if (Mathf.Abs(rb.velocity.y + speedToAdd) <= maxSwimSpeed)
             rb.velocity = new Vector2(0.0f, rb.velocity.y + speedToAdd);
         else

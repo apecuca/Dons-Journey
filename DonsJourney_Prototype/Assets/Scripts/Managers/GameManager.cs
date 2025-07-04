@@ -29,9 +29,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text lb_dist;
     [SerializeField] private Text lb_version;
     [SerializeField] private Text lb_finalStats;
+    [SerializeField] private Toggle tog_joystickInput;
+
+    [Header("Inputs")]
+    [SerializeField] private GameObject joystickInputObj;
+    [SerializeField] private GameObject screenInputObj;
 
     [Header("Misc")]
     [SerializeField] private int menuBubblePrice;
+    public static bool joystickInput { get; private set; } = false;
 
     // Que sintaxe grande meu deus do ceu
     public static GAMESTATE currentState { get; private set; } = GAMESTATE.WAITING;
@@ -53,6 +59,7 @@ public class GameManager : MonoBehaviour
         instance = this;
 
         lb_version.text = "Don's Journey Prototype v" + Application.version;
+        tog_joystickInput.isOn = joystickInput;
     }
 
     /*---------------------------------------------------------------*/
@@ -74,6 +81,9 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        joystickInput = tog_joystickInput.isOn;
+        ToggleScreenInputs();
+
         currentState = GAMESTATE.PLAYING;
         HUD_menu.SetActive(false);
         HUD_ingame.SetActive(true);
@@ -130,6 +140,12 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(_t);
         btn_playAgain.interactable = true;
     }
+    
+    private void ToggleScreenInputs()
+    {
+        joystickInputObj.SetActive(joystickInput);
+        screenInputObj.SetActive(!joystickInput);
+    }
 
     #endregion
 
@@ -141,6 +157,8 @@ public class GameManager : MonoBehaviour
     public void ResetSessionData()
     {
         PlayerStats.SetCoins(0);
+        joystickInput = false;
+        tog_joystickInput.isOn = joystickInput;
         UpdateCoins(0);
     }
 
